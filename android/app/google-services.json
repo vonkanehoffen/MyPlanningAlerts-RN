@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "305547772229",
+    "firebase_url": "https://my-planning-alerts.firebaseio.com",
+    "project_id": "my-planning-alerts",
+    "storage_bucket": "my-planning-alerts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305547772229:android:f7e813758e72950b",
+        "android_client_info": {
+          "package_name": "com.kanec.myplanningalerts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305547772229-ulop49hba9l0tjfnmvcea3vvch4h2q4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kanec.myplanningalerts",
+            "certificate_hash": "0b2b9bb10dfe0ace1ccd5e8b381f3c27ad29e9e6"
+          }
+        },
+        {
+          "client_id": "305547772229-k1a35gnhg1fv4sgbk2gaqilg5ksnfguf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7EcSOq2gUW9WK1BHSl4WGQXBg22o1Q00"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305547772229-k1a35gnhg1fv4sgbk2gaqilg5ksnfguf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "305547772229-anihmj4kfi79hrj3jonm284si8k7qfla.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kanec.myplanningalerts"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
