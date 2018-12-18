@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 
 import firebase from 'react-native-firebase';
+import FirestoreTest from './containers/FirestoreTest'
 
 export default class App extends React.Component {
   constructor() {
@@ -39,6 +40,7 @@ export default class App extends React.Component {
               Cmd+M or shake for dev menu
             </Text>
           )}
+          <FirestoreTest/>
           <View style={styles.modules}>
             <Text style={styles.modulesHeader}>The following Firebase modules are pre-installed:</Text>
             {firebase.admob.nativeModuleExists && <Text style={styles.module}>admob()</Text>}
