@@ -36,6 +36,18 @@ allprojects {
   }
 }
 
+// Project wide config that apparently react-maps-native likes... See:
+// https://github.com/react-native-community/react-native-maps/blob/master/docs/installation.md#build-configuration-on-android
+
+// ext {
+//   compileSdkVersion   = 27
+//   targetSdkVersion    = 26
+//   buildToolsVersion   = "28.0.2"
+//   supportLibVersion   = "27.1.1"
+//   googlePlayServicesVersion = "16.0.1"
+//   androidMapsUtilsVersion = "0.5+"
+// }
+
 task wrapper(type: Wrapper) {
   gradleVersion = '4.6'
   distributionUrl = distributionUrl.replace("bin", "all")

@@ -3,6 +3,7 @@ import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-nativ
 import firebase from 'react-native-firebase';
 import FirestoreTest from './containers/FirestoreTest'
 import GetLocation from './containers/GetLocation'
+import PlanningMap from './containers/PlanningMap'
 
 export default class App extends React.Component {
   constructor() {
@@ -40,6 +41,7 @@ export default class App extends React.Component {
               Cmd+M or shake for dev menu
             </Text>
           )}
+          <PlanningMap/>
           <GetLocation/>
           <FirestoreTest/>
         </View>
