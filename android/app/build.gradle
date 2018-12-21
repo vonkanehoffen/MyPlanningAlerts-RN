@@ -159,6 +159,14 @@ dependencies {
   implementation fileTree(dir: "libs", include: ["*.jar"])
 
   /* ----------------------------
+   *    react-native-geolocation-service TODO: Global properties in app/android/build.gradle
+   * ---------------------------- */
+  compile(project(':react-native-geolocation-service')) {
+          exclude group: 'com.google.android.gms', module: 'play-services-location'
+      }
+      compile 'com.google.android.gms:play-services-location:16.0.0'
+
+  /* ----------------------------
    *    REACT NATIVE FIREBASE
    * ---------------------------- */
 
