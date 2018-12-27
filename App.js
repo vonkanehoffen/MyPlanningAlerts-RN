@@ -9,6 +9,7 @@ import AboutScreen from './screens/AboutScreen'
 import VersionScreen from './screens/VersionScreen'
 import SearchRadiusScreen from './screens/SearchRadiusScreen'
 import NotificationsScreen from './screens/NotificationsScreen'
+import DrawerContent from './components/DrawerContent'
 
 const HomeStack = createStackNavigator(
   {
@@ -39,7 +40,7 @@ const RootStack = createDrawerNavigator(
     Version: VersionScreen,
   },
   {
-    initialRouteName: 'Home',
+    contentComponent: DrawerContent,
   }
 );
 

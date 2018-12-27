@@ -4,10 +4,10 @@ import { Button, View } from 'react-native'
 import { DrawerActions, withNavigation } from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-const MenuButton = ({navigation}) => {
+const MenuCloseButton = ({navigation}) => {
   return (
-    <Icon name="menu" color="white" size={30} onPress={() => navigation.openDrawer()} title="Open drawer" />
+    <Icon name="close" color="black" size={30} onPress={() => navigation.closeDrawer()}/>
   )
 }
 
-export default withNavigation(MenuButton)
+export default withNavigation(MenuCloseButton)

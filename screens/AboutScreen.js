@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
-import MenuButton from '../components/MenuButton'
+import MenuButton from '../components/MenuOpenButton'
 
 export default class AboutScreen extends React.Component {
 
