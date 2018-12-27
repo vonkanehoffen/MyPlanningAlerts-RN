@@ -1,20 +1,48 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import SetLocationScreen from './screens/SetLocationScreen'
 import HomeScreen from './screens/HomeScreen'
-import DetailsScreen from './screens/DetailsScreen'
+import DetailsScreen from './screens/DetailsScreen';
+import { colors } from './theme';
+import AboutScreen from './screens/AboutScreen'
+import VersionScreen from './screens/VersionScreen'
+import SearchRadiusScreen from './screens/SearchRadiusScreen'
+import NotificationsScreen from './screens/NotificationsScreen'
 
-const RootStack = createStackNavigator(
+const HomeStack = createStackNavigator(
   {
-    SetLocation: SetLocationScreen,
-    Home: HomeScreen,
+    Map: HomeScreen,
     Details: DetailsScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: colors.primary,
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'normal',
+      },
+    }
+
+  }
+)
+
+const RootStack = createDrawerNavigator(
+  {
+    Home: HomeStack,
+    SetLocation: SetLocationScreen,
+    SearchRadius: SearchRadiusScreen,
+    Notifications: NotificationsScreen,
+    About: AboutScreen,
+    Version: VersionScreen,
   },
   {
     initialRouteName: 'Home',
   }
 );
+
 
 const AppContainer = createAppContainer(RootStack);
 

@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 import PlanningMap from '../containers/PlanningMap'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MenuButton from '../components/MenuButton'
 
 export default class HomeScreen extends React.Component {
 
@@ -9,18 +11,18 @@ export default class HomeScreen extends React.Component {
     this.state = {}
   }
 
+  static navigationOptions = {
+    headerTitle: 'Home',
+    headerLeft: <MenuButton/>
+  };
+
   render() {
     return (
       <View>
-        <Text>Home Screen</Text>
         <PlanningMap/>
         <Button
           title="Go to Details"
           onPress={() => this.props.navigation.navigate('Details')}
-        />
-        <Button
-          title="Go to Set location"
-          onPress={() => this.props.navigation.navigate('SetLocation')}
         />
       </View>
     )

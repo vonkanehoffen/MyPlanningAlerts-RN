@@ -1,9 +1,8 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
-import GetLocation from '../containers/GetLocation'
 import MenuButton from '../components/MenuButton'
 
-export default class SetLocationScreen extends React.Component {
+export default class AboutScreen extends React.Component {
 
   constructor() {
     super()
@@ -11,15 +10,14 @@ export default class SetLocationScreen extends React.Component {
   }
 
   static navigationOptions = {
-    drawerLabel: 'Set Location',
+    drawerLabel: 'About things....',
+    headerTitle: 'About my planning wotsit'
   };
-
 
   render() {
     return (
       <View>
-        <Text>Set location</Text>
-        <GetLocation/>
+        <Text>About screen here</Text>
       </View>
     )
   }
