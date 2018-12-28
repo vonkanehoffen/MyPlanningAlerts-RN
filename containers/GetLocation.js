@@ -2,6 +2,7 @@ import React from 'react'
 import firebase from 'react-native-firebase'
 import { View, ScrollView, StyleSheet, Text, Button, PermissionsAndroid, Platform } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
+import { UserContext } from '../App'
 
 // Note: we'll need this for Android:
 // https://facebook.github.io/react-native/docs/geolocation
@@ -36,7 +37,7 @@ class GetLocation extends React.Component {
     }
   }
 
-  doLocation = async () => {
+  doLocation = async (userId) => {
     if(Platform.OS === 'android' && !this.state.hasLocationPermission) {
       this.setState({
         hasLocationPermission:
@@ -58,6 +59,14 @@ class GetLocation extends React.Component {
           error: null,
           fetching: false,
         });
+        const db = firebase.firestore().collection('users');
+
+        db.doc(userId).set({
+          location: position.coords,
+        })
+          .then(() => console.log('Location saved to firestore'))
+          .catch(error => console.error('Error saving location:', error));
+
       },
       (error) => {
         this.setState({ error: error.message, fetching: false })
@@ -70,14 +79,18 @@ class GetLocation extends React.Component {
   render() {
     const { latitude, longitude, error, fetching, hasLocationPermission } = this.state
     return (
-      <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Location permission? {hasLocationPermission ? 'yes': 'no'}</Text>
-        <Button onPress={this.doLocation} title="Get Location"/>
-        <Text>Latitude: {latitude}</Text>
-        <Text>Longitude: {longitude}</Text>
-        {error ? <Text>Error: {error}</Text> : null}
-        {fetching && <Text>Fetching...</Text>}
-      </View>
+      <UserContext.Consumer>
+        {({ fcmToken }) => (
+          <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Location permission? {hasLocationPermission ? 'yes': 'no'}</Text>
+            <Button onPress={() => this.doLocation(fcmToken)} title="Get Location"/>
+            <Text>Latitude: {latitude}</Text>
+            <Text>Longitude: {longitude}</Text>
+            {error ? <Text>Error: {error}</Text> : null}
+            {fetching && <Text>Fetching...</Text>}
+          </View>
+        )}
+      </UserContext.Consumer>
     );
   }
 
