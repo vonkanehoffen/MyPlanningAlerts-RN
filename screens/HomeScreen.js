@@ -3,7 +3,6 @@ import { View, Text, Button } from 'react-native'
 import PlanningMap from '../containers/PlanningMap'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../components/MenuOpenButton'
-import { UserContext } from '../App'
 import firebase from "react-native-firebase"
 
 export default class HomeScreen extends React.Component {
@@ -36,21 +35,17 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const { planningApps } = this.state;
-    const { navigation } = this.props;
+    const { navigation, screenProps: { userId } } = this.props;
 
     return (
-      <UserContext.Consumer>
-        {({fcmToken}) => (
-          <View>
-            <PlanningMap markers={planningApps}/>
-            <Button
-              title="Go to Details"
-              onPress={() => navigation.navigate('Details')}
-            />
-            <Text>fcm token from context: {fcmToken}</Text>
-          </View>
-        )}
-      </UserContext.Consumer>
+      <View>
+        <PlanningMap markers={planningApps}/>
+        <Button
+          title="Go to Details"
+          onPress={() => navigation.navigate('Details')}
+        />
+        <Text>fcm token from screenprops: {userId}</Text>
+      </View>
     )
   }
 }

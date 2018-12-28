@@ -1,8 +1,7 @@
 import React from 'react'
-import firebase from 'react-native-firebase'
+import PropTypes from 'prop-types'
 import { View, ScrollView, StyleSheet, Text, Button, PermissionsAndroid, Platform } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
-import { UserContext } from '../App'
 
 // Note: we'll need this for Android:
 // https://facebook.github.io/react-native/docs/geolocation
@@ -16,17 +15,17 @@ import { UserContext } from '../App'
 
 class GetLocation extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      latitude: null,
-      longitude: null,
-      error: null,
-      fetching: false,
-      hasLocationPermission: Platform.OS === 'ios', // All iOS apps have location permission I think?
-    };
+  static propTypes = {
+    setLocation: PropTypes.func.isRequired,
   }
+
+  state = {
+    latitude: null,
+    longitude: null,
+    error: null,
+    fetching: false,
+    hasLocationPermission: Platform.OS === 'ios', // All iOS apps have location permission I think?
+  };
 
   componentDidMount = async () => {
     if(Platform.OS === 'android') {
@@ -37,7 +36,11 @@ class GetLocation extends React.Component {
     }
   }
 
-  doLocation = async (userId) => {
+  /**
+   * Get the user's position and save it to firestore and app state
+   * @returns {Promise<void>}
+   */
+  doLocation = async () => {
     if(Platform.OS === 'android' && !this.state.hasLocationPermission) {
       this.setState({
         hasLocationPermission:
@@ -59,14 +62,8 @@ class GetLocation extends React.Component {
           error: null,
           fetching: false,
         });
-        const db = firebase.firestore().collection('users');
 
-        db.doc(userId).set({
-          location: position.coords,
-        })
-          .then(() => console.log('Location saved to firestore'))
-          .catch(error => console.error('Error saving location:', error));
-
+        this.props.setLocation(position.coords)
       },
       (error) => {
         this.setState({ error: error.message, fetching: false })
@@ -79,18 +76,14 @@ class GetLocation extends React.Component {
   render() {
     const { latitude, longitude, error, fetching, hasLocationPermission } = this.state
     return (
-      <UserContext.Consumer>
-        {({ fcmToken }) => (
-          <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Location permission? {hasLocationPermission ? 'yes': 'no'}</Text>
-            <Button onPress={() => this.doLocation(fcmToken)} title="Get Location"/>
-            <Text>Latitude: {latitude}</Text>
-            <Text>Longitude: {longitude}</Text>
-            {error ? <Text>Error: {error}</Text> : null}
-            {fetching && <Text>Fetching...</Text>}
-          </View>
-        )}
-      </UserContext.Consumer>
+      <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Location permission? {hasLocationPermission ? 'yes': 'no'}</Text>
+        <Button onPress={() => this.doLocation()} title="Get Location"/>
+        <Text>Latitude: {latitude}</Text>
+        <Text>Longitude: {longitude}</Text>
+        {error ? <Text>Error: {error}</Text> : null}
+        {fetching && <Text>Fetching...</Text>}
+      </View>
     );
   }
 

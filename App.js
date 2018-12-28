@@ -13,6 +13,16 @@ import NotificationsScreen from './screens/NotificationsScreen'
 import DrawerContent from './components/DrawerContent'
 
 /**
+ * Init Firestore DB
+ * Note offline mode / persistence is enabled by default.
+ * See https://rnfirebase.io/docs/v5.x.x/firestore/reference/firestore
+ */
+export const db = firebase.firestore()
+db.settings({
+  timestampsInSnapshots: true
+});
+
+/**
  * Navigation setup....
  * The main map view and planning app detail screens
  */
@@ -56,10 +66,6 @@ const RootStack = createDrawerNavigator(
 
 const AppContainer = createAppContainer(RootStack);
 
-export const UserContext = React.createContext({
-  fcmToken: false,
-})
-
 export default class App extends React.Component {
 
   state = {
@@ -84,6 +90,11 @@ export default class App extends React.Component {
       console.warn(`Token Changed... ${fcmToken}`)
       this.setState({ fcmToken });
     });
+
+    // If we've got a token (we should have...) use it to retrieve the user's preferred location
+    if(this.state.fcmToken) {
+      // TODO
+    }
   }
 
   componentWillUnmount() {
@@ -92,9 +103,10 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <UserContext.Provider value={{ fcmToken: this.state.fcmToken }}>
-        <AppContainer />
-      </UserContext.Provider>
+      <AppContainer screenProps={{
+        // This data will be passed as props to all screens:
+        userId: this.state.fcmToken
+      }}/>
     )
   }
 }
