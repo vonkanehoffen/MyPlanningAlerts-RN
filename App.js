@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
 import firebase from 'react-native-firebase'
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
 import SetLocationScreen from './screens/SetLocationScreen'
@@ -82,8 +82,10 @@ export default class App extends React.Component {
    * @returns {Promise<void>}
    */
   componentDidMount = async () => {
+    const fcmToken = await firebase.messaging().getToken()
+    console.log('GOT FCM TOKEN:', fcmToken)
     this.setState({
-      fcmToken: await firebase.messaging().getToken()
+      fcmToken: fcmToken,
     });
     this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
       // TODO: Process your token as required .... should only be on app uninstall though.
@@ -102,10 +104,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { fcmToken } = this.state
+
+    if(!fcmToken) return (
+      <ActivityIndicator size="large" color="#0000ff" />
+    )
+
     return (
       <AppContainer screenProps={{
         // This data will be passed as props to all screens:
-        userId: this.state.fcmToken
+        userId: fcmToken,
       }}/>
     )
   }
