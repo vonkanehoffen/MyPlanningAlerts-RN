@@ -20,10 +20,13 @@ export default class PlanningAppList extends React.Component {
     return (
       <Outer>
         <Text>Count: {items.length}</Text>
-        {this.props.items.map((item, i) =>
-          <Text key={i}>{item.address}</Text>
+        {items.map((location, i) =>
+          <View key={i}>
+            {location.apps.map(item => <Text key={item.ref}>TITLE: {item.title}</Text>)}
+          </View>
         )}
-      </Outer>
+        <Text>{JSON.stringify(items, null, 2)}</Text>
+        </Outer>
     )
   }
 }

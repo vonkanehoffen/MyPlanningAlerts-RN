@@ -35,7 +35,7 @@ export default class HomeScreen extends React.Component {
     this.setState({ user: user })
 
     // Perform a geo-hashed search
-    const geoCollection = geoFirestore.collection('planningApps');
+    const geoCollection = geoFirestore.collection('planningLocations');
     console.log(`SEARCHING LAT ${user.location.latitude}, LON ${user.location.longitude}`);
     const query = geoCollection.near({
       center: new firebase.firestore.GeoPoint(user.location.latitude, user.location.longitude),

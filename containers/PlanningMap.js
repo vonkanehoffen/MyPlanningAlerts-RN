@@ -24,13 +24,18 @@ const PlanningMap = ({ markers, center }) => (
         longitudeDelta: 0.0121,
       }}
     >
-      {markers.map((marker, i) => marker.lat ? (
-        <Marker
-          coordinate={{latitude: marker.lat, longitude: marker.lng}}
-          title={marker.title}
-          key={i}
-        />
-      ) : false)}
+      {markers.map((marker, i) => {
+        return marker.coordinates ? (
+          <Marker
+            coordinate={{
+              latitude: marker.coordinates._latitude,
+              longitude: marker.coordinates._longitude
+            }}
+            title={marker.title}
+            key={i}
+          />
+        ) : false
+      })}
     </MapView>
   </View>
 )
