@@ -16,8 +16,10 @@ export default class AboutScreen extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text>About screen here</Text>
+      <View style={{flex: 1}}>
+        <View style={{flex: 2, backgroundColor: 'powderblue'}} />
+        <View style={{flex: 1, backgroundColor: 'skyblue'}}><Text>About screen here</Text></View>
+        {/*<View style={{flex: 3, backgroundColor: 'steelblue'}} />*/}
       </View>
     )
   }

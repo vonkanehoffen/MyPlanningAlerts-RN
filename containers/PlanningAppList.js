@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components'
 import { View, Text, Button } from 'react-native';
 
 export default class PlanningAppList extends React.Component {
@@ -17,12 +18,17 @@ export default class PlanningAppList extends React.Component {
     const { items } = this.props;
 
     return (
-      <View>
+      <Outer>
         <Text>Count: {items.length}</Text>
         {this.props.items.map((item, i) =>
           <Text key={i}>{item.address}</Text>
         )}
-      </View>
+      </Outer>
     )
   }
 }
+
+const Outer = styled.ScrollView`
+  flex: 1;
+  background: steelblue;
+`

@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { View, Text, Button } from 'react-native'
 import PlanningMap from '../containers/PlanningMap'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -54,23 +55,27 @@ export default class HomeScreen extends React.Component {
 
     if(user.location) {
       return (
-        <View>
+        <Outer>
           <PlanningMap markers={planningApps} center={user.location}/>
           <PlanningAppList items={planningApps}/>
-          <Button
-            title="Go to Details"
-            onPress={() => navigation.navigate('Details')}
-          />
-          <Text>fcm token from screenprops: {userId}</Text>
-        </View>
+          {/*<Button*/}
+            {/*title="Go to Details"*/}
+            {/*onPress={() => navigation.navigate('Details')}*/}
+          {/*/>*/}
+          {/*<Text>fcm token from screenprops: {userId}</Text>*/}
+        </Outer>
       )
     } else {
       return (
-        <View>
+        <Outer>
           <Text>No Location!</Text>
           <Text>{JSON.stringify(this.state, null, 2)}</Text>
-        </View>
+        </Outer>
       )
     }
   }
 }
+
+const Outer = styled.View`
+  flex: 1;
+`
