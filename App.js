@@ -1,24 +1,28 @@
-import React from 'react';
-import { View, Text, Button, ActivityIndicator } from 'react-native';
-import firebase from 'react-native-firebase'
-import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
-import SetLocationScreen from './screens/SetLocationScreen'
-import HomeScreen from './screens/HomeScreen'
-import DetailsScreen from './screens/DetailsScreen';
-import { colors } from './theme';
-import AboutScreen from './screens/AboutScreen'
-import VersionScreen from './screens/VersionScreen'
-import SearchRadiusScreen from './screens/SearchRadiusScreen'
-import NotificationsScreen from './screens/NotificationsScreen'
-import DrawerContent from './components/DrawerContent'
-import { GeoFirestore } from 'geofirestore'
+import React from "react";
+import { View, Text, Button, ActivityIndicator } from "react-native";
+import firebase from "react-native-firebase";
+import {
+  createStackNavigator,
+  createAppContainer,
+  createDrawerNavigator
+} from "react-navigation";
+import SetLocationScreen from "./screens/SetLocationScreen";
+import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
+import { colors } from "./theme";
+import AboutScreen from "./screens/AboutScreen";
+import VersionScreen from "./screens/VersionScreen";
+import SearchRadiusScreen from "./screens/SearchRadiusScreen";
+import NotificationsScreen from "./screens/NotificationsScreen";
+import DrawerContent from "./components/DrawerContent";
+import { GeoFirestore } from "geofirestore";
 
 /**
  * Init Firestore DB
  * Note offline mode / persistence is enabled by default.
  * See https://rnfirebase.io/docs/v5.x.x/firestore/reference/firestore
  */
-export const db = firebase.firestore()
+export const db = firebase.firestore();
 db.settings({
   timestampsInSnapshots: true
 });
@@ -32,21 +36,20 @@ export const geoFirestore = new GeoFirestore(db);
 const HomeStack = createStackNavigator(
   {
     Map: HomeScreen,
-    Details: DetailsScreen,
+    Details: DetailsScreen
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.primary
       },
-      headerTintColor: '#fff',
+      headerTintColor: "#fff",
       headerTitleStyle: {
-        fontWeight: 'normal',
-      },
+        fontWeight: "normal"
+      }
     }
-
   }
-)
+);
 
 /**
  * The root navigation stack (accessible via a nav drawer)
@@ -59,21 +62,19 @@ const RootStack = createDrawerNavigator(
     SearchRadius: SearchRadiusScreen,
     Notifications: NotificationsScreen,
     About: AboutScreen,
-    Version: VersionScreen,
+    Version: VersionScreen
   },
   {
-    contentComponent: DrawerContent,
+    contentComponent: DrawerContent
   }
 );
-
 
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
-
   state = {
-    fcmToken: false,
-  }
+    fcmToken: false
+  };
 
   /**
    * Get the FCM token for app context and monitor for any changes.
@@ -85,39 +86,41 @@ export default class App extends React.Component {
    * @returns {Promise<void>}
    */
   componentDidMount = async () => {
-    const fcmToken = await firebase.messaging().getToken()
-    console.log('GOT FCM TOKEN:', fcmToken)
+    const fcmToken = await firebase.messaging().getToken();
+    console.log("GOT FCM TOKEN:", fcmToken);
     this.setState({
-      fcmToken: fcmToken,
+      fcmToken: fcmToken
     });
-    this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-      // TODO: Process your token as required .... should only be on app uninstall though.
-      console.warn(`Token Changed... ${fcmToken}`)
-      this.setState({ fcmToken });
-    });
+    this.onTokenRefreshListener = firebase
+      .messaging()
+      .onTokenRefresh(fcmToken => {
+        // TODO: Process your token as required .... should only be on app uninstall though.
+        console.warn(`Token Changed... ${fcmToken}`);
+        this.setState({ fcmToken });
+      });
 
     // If we've got a token (we should have...) use it to retrieve the user's preferred location
-    if(this.state.fcmToken) {
+    if (this.state.fcmToken) {
       // TODO
     }
-  }
+  };
 
   componentWillUnmount() {
     this.onTokenRefreshListener();
   }
 
   render() {
-    const { fcmToken } = this.state
+    const { fcmToken } = this.state;
 
-    if(!fcmToken) return (
-      <ActivityIndicator size="large" color="#0000ff" />
-    )
+    if (!fcmToken) return <ActivityIndicator size="large" color="#0000ff" />;
 
     return (
-      <AppContainer screenProps={{
-        // This data will be passed as props to all screens:
-        userId: fcmToken,
-      }}/>
-    )
+      <AppContainer
+        screenProps={{
+          // This data will be passed as props to all screens:
+          userId: fcmToken
+        }}
+      />
+    );
   }
 }

@@ -1,11 +1,10 @@
-import React from 'react'
-import { View, Text, Button } from 'react-native'
+import React from "react";
+import { View, Text, Button } from "react-native";
 
 export default class VersionScreen extends React.Component {
-
   constructor() {
-    super()
-    this.state = {}
+    super();
+    this.state = {};
   }
 
   render() {
@@ -13,6 +12,6 @@ export default class VersionScreen extends React.Component {
       <View>
         <Text>Version 1.0</Text>
       </View>
-    )
+    );
   }
 }

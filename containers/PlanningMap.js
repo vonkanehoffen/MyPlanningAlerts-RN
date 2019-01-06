@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { View, ScrollView, StyleSheet, Text, Button } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, ScrollView, StyleSheet, Text, Button } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 2
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
+    ...StyleSheet.absoluteFillObject
+  }
 });
 
 const PlanningMap = ({ markers, center }) => (
@@ -21,7 +21,7 @@ const PlanningMap = ({ markers, center }) => (
         latitude: center.latitude,
         longitude: center.longitude,
         latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
+        longitudeDelta: 0.0121
       }}
     >
       {markers.map((marker, i) => {
@@ -34,15 +34,17 @@ const PlanningMap = ({ markers, center }) => (
             title={marker.title}
             key={i}
           />
-        ) : false
+        ) : (
+          false
+        );
       })}
     </MapView>
   </View>
-)
+);
 
 PlanningMap.propTypes = {
   markers: PropTypes.array.isRequired,
-  center: PropTypes.object.isRequired,
-}
+  center: PropTypes.object.isRequired
+};
 
-export default PlanningMap
+export default PlanningMap;
