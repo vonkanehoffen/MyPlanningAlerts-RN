@@ -3,8 +3,10 @@ import { View, Text, Button } from 'react-native'
 import PlanningMap from '../containers/PlanningMap'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../components/MenuOpenButton'
-import { db } from '../App'
+import { db, geoFirestore } from '../App'
 import firebase from 'react-native-firebase'
+import { GeoCollectionReference, GeoFirestore, GeoQuery, GeoQuerySnapshot } from 'geofirestore'
+import PlanningAppList from '../containers/PlanningAppList'
 
 export default class HomeScreen extends React.Component {
 
@@ -25,15 +27,24 @@ export default class HomeScreen extends React.Component {
    */
   async componentDidMount() {
 
-    let planningApps = []
-
-    const planningAppsQuery = await db.collection('planningApps').get();
-    planningAppsQuery.forEach(doc => planningApps.push(doc.data()));
-    this.setState({planningApps});
-
+    // Get user so we know location to search near
     const id = this.props.screenProps.userId;
-    const user = await db.collection('users').doc(id).get();
-    this.setState({ user: user.data() })
+    const userQuery = await db.collection('users').doc(id).get();
+    const user = userQuery.data()
+    this.setState({ user: user })
+
+    // Perform a geo-hashed search
+    const geoCollection = geoFirestore.collection('planningApps');
+    console.log(`SEARCHING LAT ${user.location.latitude}, LON ${user.location.longitude}`);
+    const query = geoCollection.near({
+      center: new firebase.firestore.GeoPoint(user.location.latitude, user.location.longitude),
+      radius: 2, // km
+    })
+    const results = await query.get();
+
+    let planningApps = []
+    results.forEach(doc => planningApps.push(doc.data()));
+    this.setState({planningApps});
 
   }
 
@@ -45,6 +56,7 @@ export default class HomeScreen extends React.Component {
       return (
         <View>
           <PlanningMap markers={planningApps} center={user.location}/>
+          <PlanningAppList items={planningApps}/>
           <Button
             title="Go to Details"
             onPress={() => navigation.navigate('Details')}

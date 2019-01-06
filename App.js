@@ -11,6 +11,7 @@ import VersionScreen from './screens/VersionScreen'
 import SearchRadiusScreen from './screens/SearchRadiusScreen'
 import NotificationsScreen from './screens/NotificationsScreen'
 import DrawerContent from './components/DrawerContent'
+import { GeoFirestore } from 'geofirestore'
 
 /**
  * Init Firestore DB
@@ -21,6 +22,8 @@ export const db = firebase.firestore()
 db.settings({
   timestampsInSnapshots: true
 });
+
+export const geoFirestore = new GeoFirestore(db);
 
 /**
  * Navigation setup....
