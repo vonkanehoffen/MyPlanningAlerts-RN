@@ -37,6 +37,7 @@ export default class HomeScreen extends React.Component {
       .collection("users")
       .doc(id)
       .get();
+    if (!userQuery.exists) return; // TODO: No user = redirect to setup screen or something?
     const user = userQuery.data();
     this.setState({ user: user });
 
@@ -50,7 +51,7 @@ export default class HomeScreen extends React.Component {
         user.location.latitude,
         user.location.longitude
       ),
-      radius: 2 // km
+      radius: user.searchRadius // km
     });
     const results = await query.get();
 
@@ -69,8 +70,12 @@ export default class HomeScreen extends React.Component {
     if (user.location) {
       return (
         <Outer>
-          <PlanningMap markers={planningApps} center={user.location} />
-          <PlanningAppList items={planningApps} />
+          <PlanningMap
+            markers={planningApps}
+            center={user.location}
+            radius={user.searchRadius}
+          />
+          <PlanningAppList items={planningApps} center={user.location} />
           {/*<Button*/}
           {/*title="Go to Details"*/}
           {/*onPress={() => navigation.navigate('Details')}*/}

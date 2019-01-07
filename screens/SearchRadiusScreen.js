@@ -18,14 +18,14 @@ export default class SearchRadiusScreen extends React.Component {
       .collection("users")
       .doc(this.props.screenProps.userId)
       .update({
-        searchRadius: radius
+        searchRadius: parseInt(radius)
       });
   }
 
   render() {
     return (
       <View>
-        <Text>Set search radius here</Text>
+        <Text>Set search radius here (km)</Text>
         <TextInput
           keyboardType="numeric"
           placeholder="Search radius"
