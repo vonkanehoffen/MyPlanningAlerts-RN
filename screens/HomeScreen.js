@@ -16,8 +16,7 @@ import PlanningAppList from "../containers/PlanningAppList";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    headerTitle: "Home",
-    headerLeft: <MenuButton />
+    headerMode: "none"
   };
 
   state = {
@@ -75,6 +74,7 @@ export default class HomeScreen extends React.Component {
             center={user.location}
             radius={user.searchRadius}
           />
+          <MenuButton />
           <PlanningAppList items={planningApps} center={user.location} />
           {/*<Button*/}
           {/*title="Go to Details"*/}

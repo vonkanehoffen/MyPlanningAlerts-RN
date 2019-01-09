@@ -39,15 +39,7 @@ const HomeStack = createStackNavigator(
     Details: DetailsScreen
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: colors.primary
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        fontWeight: "normal"
-      }
-    }
+    headerMode: "none"
   }
 );
 

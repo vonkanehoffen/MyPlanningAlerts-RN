@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { View, Text, Button } from "react-native";
+import { DrawerActions, withNavigation } from "react-navigation";
 import ApplicationDetail from "../components/ApplicationDetail";
 
-export default class PlanningAppList extends React.Component {
+class PlanningAppList extends React.Component {
   constructor() {
     super();
     this.state = {};
@@ -15,7 +16,7 @@ export default class PlanningAppList extends React.Component {
   };
 
   render() {
-    const { items, center } = this.props;
+    const { items, center, navigation } = this.props;
 
     return (
       <Outer>
@@ -23,7 +24,12 @@ export default class PlanningAppList extends React.Component {
         {items.map((location, i) => (
           <View key={i}>
             {location.apps.map(item => (
-              <ApplicationDetail key={item.ref} app={item} center={center} />
+              <ApplicationDetail
+                key={item.ref}
+                app={item}
+                center={center}
+                navigate={() => navigation.navigate("Details", { item })}
+              />
             ))}
           </View>
         ))}
@@ -37,3 +43,5 @@ const Outer = styled.ScrollView`
   flex: 1;
   background: steelblue;
 `;
+
+export default withNavigation(PlanningAppList);

@@ -1,25 +1,27 @@
 import React from "react";
 import styled from "styled-components";
+import { View } from "react-native";
 import { Geokit, LatLngLiteral } from "geokit";
 
-const ApplicationDetail = ({ app, center }) => {
+const ApplicationDetail = ({ app, center, navigate }) => {
   const distance = Geokit.distance(app, {
     lat: center.latitude,
     lng: center.longitude
   });
 
   return (
-    <Outer>
-      <Title>{app.title}</Title>
-      <Address>{app.address}</Address>
-      <Distance>{distance}</Distance>
+    <Outer onPress={navigate}>
+      <View>
+        <Title>{app.title}</Title>
+        <Address>{app.address}</Address>
+        <Distance>{Math.round(distance * 100) / 100}km</Distance>
+      </View>
     </Outer>
   );
 };
 
-const Outer = styled.View`
-  border: 2px solid #000;
-  background: #fff;
+const Outer = styled.TouchableHighlight`
+  background: #ff0;
   padding: 10px;
 `;
 

@@ -14,10 +14,13 @@ export default class DetailsScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+    const item = navigation.getParam("item", false);
     return (
       <View>
         <Text>Planning app details here</Text>
-        <FirestoreTest />
+        <Text>{JSON.stringify(item, null, 2)}</Text>
+        {/*<FirestoreTest />*/}
       </View>
     );
   }
