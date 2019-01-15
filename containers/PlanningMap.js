@@ -35,6 +35,7 @@ const PlanningMap = ({ markers, center, radius }) => {
             false
           );
         })}
+        <Marker coordinate={center} image={require("../assets/homePin.png")} />
       </MapView>
     </View>
   );
