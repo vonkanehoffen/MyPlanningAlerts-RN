@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { colors } from "../theme";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const Outer = styled.TouchableHighlight`
+const Outer = styled.TouchableOpacity`
   background: white;
   padding: 10px;
   border-radius: 5px;
@@ -27,7 +27,7 @@ const BtnIcon = styled(Icon)`
 `;
 
 const BigButton = ({ onPress, label, icon }) => (
-  <Outer onPress={onPress} underlayColor={colors.secondary}>
+  <Outer onPress={onPress} activeOpacity={0.7}>
     <Inner>
       <BtnText>{label}</BtnText>
       <BtnIcon name={icon} size={40} color={colors.secondary} />

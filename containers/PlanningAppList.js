@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { View, Text, Button } from "react-native";
 import { DrawerActions, withNavigation } from "react-navigation";
-import ApplicationDetail from "../components/ApplicationDetail";
+import PlanningAppListItem from "../components/PlanningAppListItem";
+import { colors } from "../theme";
 
 class PlanningAppList extends React.Component {
   constructor() {
@@ -20,11 +21,10 @@ class PlanningAppList extends React.Component {
 
     return (
       <Outer>
-        <Text>Count: {items.length}</Text>
         {items.map((location, i) => (
           <View key={i}>
             {location.apps.map(item => (
-              <ApplicationDetail
+              <PlanningAppListItem
                 key={item.ref}
                 app={item}
                 center={center}
@@ -33,7 +33,6 @@ class PlanningAppList extends React.Component {
             ))}
           </View>
         ))}
-        <Text>{JSON.stringify(items, null, 2)}</Text>
       </Outer>
     );
   }
@@ -41,7 +40,7 @@ class PlanningAppList extends React.Component {
 
 const Outer = styled.ScrollView`
   flex: 1;
-  background: steelblue;
+  background: ${colors.primary};
 `;
 
 export default withNavigation(PlanningAppList);
