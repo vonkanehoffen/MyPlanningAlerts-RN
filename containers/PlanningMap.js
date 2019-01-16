@@ -60,18 +60,18 @@ class PlanningMap extends React.Component {
           ref={ref => (this.map = ref)}
         >
           {markers.map((marker, i) => {
-            // TODO: this is only the location so the title is invalid. It needs to scroll the PlanningAppList view
-            return marker.coordinates ? (
+            if (!marker.coordinates) return false;
+
+            const latitude = marker.coordinates._latitude;
+            const longitude = marker.coordinates._longitude;
+
+            return (
               <Marker
-                coordinate={{
-                  latitude: marker.coordinates._latitude,
-                  longitude: marker.coordinates._longitude
-                }}
+                coordinate={{ latitude, longitude }}
                 title={marker.apps[0].title}
                 key={i}
+                onPress={() => console.log("should scroll list....")}
               />
-            ) : (
-              false
             );
           })}
           <Marker

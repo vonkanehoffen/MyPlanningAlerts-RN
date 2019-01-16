@@ -15,15 +15,18 @@ import {
 import PlanningAppList from "../containers/PlanningAppList";
 
 export default class HomeScreen extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      planningApps: [],
+      user: {
+        location: false
+      }
+    };
+  }
+
   static navigationOptions = {
     headerMode: "none"
-  };
-
-  state = {
-    planningApps: [],
-    user: {
-      location: false
-    }
   };
 
   /**
