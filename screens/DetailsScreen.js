@@ -7,7 +7,7 @@ import PageOuter from "../components/PageOuter";
 import H3 from "../components/H3";
 import H2 from "../components/H2";
 import { colors } from "../theme";
-import Losenge from "../components/Losenge";
+import Lozenge from "../components/Lozenge";
 import BigButton from "../components/BigButton";
 
 export default class DetailsScreen extends React.Component {
@@ -41,8 +41,8 @@ ${item.ref}`}</H3>
         </Meta>
         <Meta>
           {/*<MetaIcon name="comment" size={40} color={colors.secondary} />*/}
-          <Losenge>{item.status}</Losenge>
-          {item.openForComment && <Losenge>Open for comments</Losenge>}
+          <Lozenge>{item.status}</Lozenge>
+          {item.openForComment && <Lozenge>Open for comments</Lozenge>}
         </Meta>
         <BigButton
           icon="arrow-forward"

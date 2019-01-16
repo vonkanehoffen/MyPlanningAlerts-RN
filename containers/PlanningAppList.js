@@ -5,7 +5,7 @@ import { View, Text, Button } from "react-native";
 import { DrawerActions, withNavigation } from "react-navigation";
 import { colors } from "../theme";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Losenge from "../components/Losenge";
+import Lozenge from "../components/Lozenge";
 import { Geokit } from "geokit";
 
 class PlanningAppList extends React.Component {
@@ -54,11 +54,11 @@ class PlanningAppList extends React.Component {
                 <Title>{item.title}</Title>
                 <Meta>
                   <Distance>{Math.round(item.distance * 100) / 100}km</Distance>
-                  <Losenge
+                  <Lozenge
                     onPress={() => navigation.navigate("Details", { item })}
                   >
                     {item.status}
-                  </Losenge>
+                  </Lozenge>
                 </Meta>
               </Content>
             </Inner>

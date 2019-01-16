@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../theme";
 
-const Losenge = styled.Text`
+const Lozenge = styled.Text`
   font-family: "IBMPlexSans-Medium";
   font-size: 14px;
   color: white;
@@ -12,4 +12,4 @@ const Losenge = styled.Text`
   border-radius: 20px;
 `;
 
-export default Losenge;
+export default Lozenge;
