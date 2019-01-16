@@ -39,6 +39,15 @@ class PlanningMap extends React.Component {
     this.map.animateToRegion(regionFrom(lat, lon, radius));
   }
 
+  componentDidUpdate(prevProps) {
+    // Note: this has to happen here as oppose to onMapReady because of a bug:
+    // https://github.com/react-native-community/react-native-maps/issues/180
+    // ...although it's kinda good as the map will auto centre when new pins are added.
+    if (prevProps.markers !== this.props.markers) {
+      this.map.fitToElements(true);
+    }
+  }
+
   render() {
     const { markers, center, radius } = this.props;
     const region = regionFrom(center.latitude, center.longitude, radius * 1000);
