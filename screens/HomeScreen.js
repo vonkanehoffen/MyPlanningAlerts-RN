@@ -73,9 +73,14 @@ export default class HomeScreen extends React.Component {
             markers={planningApps}
             center={user.location}
             radius={user.searchRadius}
+            ref={ref => (this._map = ref)}
           />
           <MenuButton />
-          <PlanningAppList items={planningApps} center={user.location} />
+          <PlanningAppList
+            items={planningApps}
+            center={user.location}
+            _map={this._map}
+          />
           {/*<Button*/}
           {/*title="Go to Details"*/}
           {/*onPress={() => navigation.navigate('Details')}*/}

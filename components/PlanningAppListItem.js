@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { View } from "react-native";
 import { Geokit, LatLngLiteral } from "geokit";
@@ -6,27 +7,34 @@ import { colors } from "../theme";
 import Losenge from "../components/Losenge";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const PlanningAppListItem = ({ app, center, navigate }) => {
-  const distance = Geokit.distance(app, {
+const PlanningAppListItem = ({ item, center, navigate, _map }) => {
+  const distance = Geokit.distance(item, {
     lat: center.latitude,
     lng: center.longitude
   });
 
   return (
-    <Outer onPress={navigate}>
+    <Outer onPress={() => _map.animateCamera(item.lat, item.lng, 1000)}>
       <Inner>
         <Icon name="location-on" size={40} color={colors.secondary} />
         <Content>
-          <Title>{app.title}</Title>
-          {/*<Address>{app.address}</Address>*/}
+          <Title>{item.title}</Title>
+          {/*<Address>{item.address}</Address>*/}
           {/*<Distance>{Math.round(distance * 100) / 100}km</Distance>*/}
           <Meta>
-            <Losenge>{app.status}</Losenge>
+            <Losenge onPress={navigate}>{item.status}</Losenge>
           </Meta>
         </Content>
       </Inner>
     </Outer>
   );
+};
+
+PlanningAppListItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  center: PropTypes.object.isRequired,
+  navigate: PropTypes.func.isRequired,
+  _map: PropTypes.object // ref
 };
 
 const Outer = styled.TouchableHighlight`

@@ -13,11 +13,14 @@ class PlanningAppList extends React.Component {
   }
 
   static propTypes = {
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
+    center: PropTypes.object.isRequired,
+    _map: PropTypes.object // Ref. Hmm... :
+    // https://stackoverflow.com/questions/48007326/what-is-the-correct-proptype-for-a-ref-in-react
   };
 
   render() {
-    const { items, center, navigation } = this.props;
+    const { items, center, navigation, _map } = this.props;
 
     return (
       <Outer>
@@ -26,8 +29,9 @@ class PlanningAppList extends React.Component {
             {location.apps.map(item => (
               <PlanningAppListItem
                 key={item.ref}
-                app={item}
+                item={item}
                 center={center}
+                _map={_map}
                 navigate={() => navigation.navigate("Details", { item })}
               />
             ))}
