@@ -24,7 +24,8 @@ class PlanningMap extends React.Component {
   static propTypes = {
     markers: PropTypes.array.isRequired,
     center: PropTypes.object.isRequired,
-    radius: PropTypes.number.isRequired
+    radius: PropTypes.number.isRequired,
+    selectPA: PropTypes.func.isRequired
   };
 
   /**
@@ -49,7 +50,7 @@ class PlanningMap extends React.Component {
   }
 
   render() {
-    const { markers, center, radius } = this.props;
+    const { markers, center, radius, selectPA } = this.props;
     const region = regionFrom(center.latitude, center.longitude, radius * 1000);
     return (
       <View style={styles.container}>
@@ -70,7 +71,7 @@ class PlanningMap extends React.Component {
                 coordinate={{ latitude, longitude }}
                 title={marker.apps[0].title}
                 key={i}
-                onPress={() => console.log("should scroll list....")}
+                onPress={() => selectPA(i)}
               />
             );
           })}

@@ -19,6 +19,7 @@ export default class HomeScreen extends React.Component {
     super();
     this.state = {
       planningApps: [],
+      selectedPA: false,
       user: {
         location: false
       }
@@ -27,6 +28,11 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = {
     headerMode: "none"
+  };
+
+  selectPA = index => {
+    console.log("selectPA", index);
+    this.setState({ selectedPA: index });
   };
 
   /**
@@ -76,12 +82,14 @@ export default class HomeScreen extends React.Component {
             markers={planningApps}
             center={user.location}
             radius={user.searchRadius}
+            selectPA={this.selectPA}
             ref={ref => (this._map = ref)}
           />
           <MenuButton />
           <PlanningAppList
             items={planningApps}
             center={user.location}
+            selectedPA={this.state.selectedPA}
             _map={this._map}
           />
           {/*<Button*/}

@@ -17,9 +17,22 @@ class PlanningAppList extends React.Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     center: PropTypes.object.isRequired,
+    selectedPA: PropTypes.oneOfType([PropTypes.number, PropTypes.bool])
+      .isRequired,
     _map: PropTypes.object // Ref. Hmm... :
     // https://stackoverflow.com/questions/48007326/what-is-the-correct-proptype-for-a-ref-in-react
   };
+
+  componentDidUpdate(prevProps) {
+    const { selectedPA } = this.props;
+    console.log("componentDidUpdate", selectedPA);
+    if (selectedPA && prevProps.selectedPA !== selectedPA) {
+      // This won't work with variable height rows FFS
+      // https://github.com/facebook/react-native/issues/13727
+      // this._list.scrollToIndex(selectedPA);
+      this._list.scrollToEnd();
+    }
+  }
 
   render() {
     const { items, center, navigation, _map } = this.props;
