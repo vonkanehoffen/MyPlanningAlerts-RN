@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
   }
 });
 
-class PlanningMap extends React.Component {
+// Note: PureComponent because that means shouldComponentUpdate is based on a shallow diff.
+// ...which stops the map re-rendering for no good reason.
+class PlanningMap extends React.PureComponent {
   static propTypes = {
     markers: PropTypes.array.isRequired,
     center: PropTypes.object.isRequired,

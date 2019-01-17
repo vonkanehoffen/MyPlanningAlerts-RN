@@ -25,12 +25,12 @@ class PlanningAppList extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { selectedPA } = this.props;
-    console.log("componentDidUpdate", selectedPA);
+    console.log("List componentDidUpdate", selectedPA);
     if (selectedPA && prevProps.selectedPA !== selectedPA) {
       // This won't work with variable height rows FFS
       // https://github.com/facebook/react-native/issues/13727
       // this._list.scrollToIndex(selectedPA);
-      this._list.scrollToEnd();
+      this._list.scrollTo({ x: 0, y: 100, animated: true });
     }
   }
 
@@ -56,11 +56,12 @@ class PlanningAppList extends React.Component {
     });
 
     return (
-      <List
-        ref={ref => (this._list = ref)}
-        data={flatData}
-        renderItem={({ item }) => (
-          <Outer onPress={() => _map.animateCamera(item.lat, item.lng, 1000)}>
+      <List ref={ref => (this._list = ref)}>
+        {flatData.map((item, i) => (
+          <Outer
+            onPress={() => _map.animateCamera(item.lat, item.lng, 1000)}
+            key={i}
+          >
             <Inner>
               <Icon name="location-on" size={40} color={colors.secondary} />
               <Content>
@@ -76,13 +77,13 @@ class PlanningAppList extends React.Component {
               </Content>
             </Inner>
           </Outer>
-        )}
-      />
+        ))}
+      </List>
     );
   }
 }
 
-const List = styled.FlatList`
+const List = styled.ScrollView`
   flex: 1;
   background: ${colors.primary};
 `;
