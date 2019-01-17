@@ -84,10 +84,12 @@ class PlanningAppList extends React.Component {
                 <Meta>
                   <Distance>{Math.round(item.distance * 100) / 100}km</Distance>
                   <Lozenge
-                    onPress={() => navigation.navigate("Details", { item })}
-                  >
-                    {item.status}
-                  </Lozenge>
+                    onPress={() => {
+                      navigation.navigate("Details", { item });
+                    }}
+                    icon="arrow-forward"
+                    label={item.status}
+                  />
                 </Meta>
               </Content>
             </Inner>

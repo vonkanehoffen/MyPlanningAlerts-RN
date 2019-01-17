@@ -41,8 +41,8 @@ ${item.ref}`}</H3>
         </Meta>
         <Meta>
           {/*<MetaIcon name="comment" size={40} color={colors.secondary} />*/}
-          <Lozenge>{item.status}</Lozenge>
-          {item.openForComment && <Lozenge>Open for comments</Lozenge>}
+          <Lozenge label={item.status} />
+          {item.openForComment && <Lozenge label="Open for comments" />}
         </Meta>
         <BigButton
           icon="arrow-forward"
