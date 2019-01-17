@@ -19,7 +19,7 @@ export default class HomeScreen extends React.Component {
     super();
     this.state = {
       planningApps: [],
-      selectedPA: false,
+      selectedPA: 0,
       user: {
         location: false
       }
@@ -31,7 +31,6 @@ export default class HomeScreen extends React.Component {
   };
 
   selectPA = index => {
-    console.log("selectPA", index);
     this.setState({ selectedPA: index });
   };
 

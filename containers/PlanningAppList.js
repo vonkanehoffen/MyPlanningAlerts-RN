@@ -25,14 +25,25 @@ class PlanningAppList extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { selectedPA } = this.props;
-    console.log("List componentDidUpdate", selectedPA);
-    if (selectedPA && prevProps.selectedPA !== selectedPA) {
-      // This won't work with variable height rows FFS
-      // https://github.com/facebook/react-native/issues/13727
+
+    if (prevProps.selectedPA !== selectedPA) {
+      // Add heights of items up to the selected one to get position to scroll to.
+      // Note FlatList won't work with variable height rows, so:
       // this._list.scrollToIndex(selectedPA);
-      this._list.scrollTo({ x: 0, y: 100, animated: true });
+      // won't work.
+      // https://github.com/facebook/react-native/issues/13727
+
+      const scrollTop = this.itemHeights
+        .slice(0, selectedPA)
+        .reduce((acc, cur) => {
+          return acc + cur;
+        }, 0);
+
+      this._list.scrollTo({ x: 0, y: scrollTop, animated: true });
     }
   }
+
+  itemHeights = [];
 
   render() {
     const { items, center, navigation, _map } = this.props;
@@ -62,7 +73,11 @@ class PlanningAppList extends React.Component {
             onPress={() => _map.animateCamera(item.lat, item.lng, 1000)}
             key={i}
           >
-            <Inner>
+            <Inner
+              onLayout={e =>
+                (this.itemHeights[i] = e.nativeEvent.layout.height)
+              }
+            >
               <Icon name="location-on" size={40} color={colors.secondary} />
               <Content>
                 <Title>{item.title}</Title>
