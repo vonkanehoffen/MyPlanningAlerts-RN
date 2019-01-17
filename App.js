@@ -4,7 +4,8 @@ import firebase from "react-native-firebase";
 import {
   createStackNavigator,
   createAppContainer,
-  createDrawerNavigator
+  createDrawerNavigator,
+  createSwitchNavigator
 } from "react-navigation";
 import SetLocationScreen from "./screens/SetLocationScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -14,6 +15,8 @@ import AboutScreen from "./screens/AboutScreen";
 import VersionScreen from "./screens/VersionScreen";
 import SearchRadiusScreen from "./screens/SearchRadiusScreen";
 import NotificationsScreen from "./screens/NotificationsScreen";
+import AuthLoadingScreen from "./screens/AuthLoadingScreen";
+import NewUserScreen from "./screens/NewUserScreen";
 import DrawerContent from "./components/DrawerContent";
 import { GeoFirestore } from "geofirestore";
 
@@ -47,7 +50,7 @@ const HomeStack = createStackNavigator(
  * The root navigation stack (accessible via a nav drawer)
  * which wraps the above
  */
-const RootStack = createDrawerNavigator(
+const DrawerStack = createDrawerNavigator(
   {
     Home: HomeStack,
     SetLocation: SetLocationScreen,
@@ -57,11 +60,23 @@ const RootStack = createDrawerNavigator(
     Version: VersionScreen
   },
   {
-    contentComponent: DrawerContent
+    contentComponent: DrawerContent,
+    initialRouteName: "Home"
   }
 );
 
-const AppContainer = createAppContainer(RootStack);
+const AuthStack = createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    NewUser: NewUserScreen,
+    App: DrawerStack
+  },
+  {
+    initialRouteName: "AuthLoading"
+  }
+);
+
+const AppContainer = createAppContainer(AuthStack);
 
 export default class App extends React.Component {
   state = {
