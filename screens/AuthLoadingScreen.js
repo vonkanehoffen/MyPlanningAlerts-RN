@@ -1,24 +1,75 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { connect } from "react-redux";
+import { View, Text, Button, ActivityIndicator } from "react-native";
+import { fetchFCMToken, fetchUser } from "../store/actionCreators";
+import PageOuter from "../components/PageOuter";
 import MenuButton from "../components/MenuOpenButton";
+import { UNINITIALIZED } from "../store/constants";
 
-export default class AuthLoadingScreen extends React.Component {
+class AuthLoadingScreen extends React.Component {
   constructor() {
     super();
     this.state = {};
   }
 
+  async componentDidMount() {
+    await this.props.fetchFCMToken();
+    await this.props.fetchUser();
+  }
+
+  componentDidUpdate() {
+    const {
+      navigation: { navigate },
+      user
+    } = this.props;
+
+    if (user.data === UNINITIALIZED) return;
+
+    // We have an existing initialized user:
+    if (user.data && user.data.location) navigate("Home");
+    //
+    // // We don't....
+    if (user.data === false) navigate("NewUser");
+  }
+
   render() {
-    const { navigate } = this.props.navigation;
+    const {
+      navigation: { navigate },
+      fcmToken,
+      user
+    } = this.props;
+
+    // Something's gone wrong...
+    if (fcmToken.error || user.error)
+      return (
+        <PageOuter>
+          <Text>Oooops.</Text>
+          <Text>{JSON.stringify(fcmToken, null, 2)}</Text>
+          <Text>{JSON.stringify(user, null, 2)}</Text>
+        </PageOuter>
+      );
+
     return (
-      <View style={{ flex: 1 }}>
-        <Text>Auth loading here</Text>
-        <Button
-          title="go to new user screen"
-          onPress={() => navigate("NewUser")}
-        />
-        <Button title="go to app" onPress={() => navigate("App")} />
-      </View>
+      <PageOuter>
+        <ActivityIndicator size="large" color="white" />
+      </PageOuter>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    fcmToken: state.app.fcmToken,
+    user: state.app.user
+  };
+};
+
+const mapDispatchToProps = {
+  fetchFCMToken,
+  fetchUser
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthLoadingScreen);

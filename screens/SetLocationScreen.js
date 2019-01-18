@@ -1,11 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, Text, Button } from "react-native";
 import GetLocation from "../containers/GetLocation";
 import MenuButton from "../components/MenuOpenButton";
 import { db } from "../App";
+import { setUserLocation } from "../store/actionCreators";
 
-export default class SetLocationScreen extends React.Component {
+class SetLocationScreen extends React.Component {
   static propTypes = {
     screenProps: PropTypes.object
   };
@@ -14,21 +16,30 @@ export default class SetLocationScreen extends React.Component {
     drawerLabel: "Set Location"
   };
 
-  setLocation = async location => {
-    db.collection("users")
-      .doc(this.props.screenProps.userId)
-      .set({ location })
-      .then(() => console.log("Location saved to firestore"))
-      .catch(error => console.error("Error saving location:", error));
-  };
-
   render() {
+    const { setUserLocation } = this.props;
     return (
       <View>
         <Text>Set location</Text>
         <Text>{JSON.stringify(this.props, null, 2)}</Text>
-        <GetLocation setLocation={this.setLocation} />
+        <GetLocation setLocation={setUserLocation} />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    fcmToken: state.app.fcmToken,
+    user: state.app.user
+  };
+};
+
+const mapDispatchToProps = {
+  setUserLocation
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SetLocationScreen);
