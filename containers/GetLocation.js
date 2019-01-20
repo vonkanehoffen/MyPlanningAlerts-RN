@@ -9,16 +9,8 @@ import {
   PermissionsAndroid,
   Platform
 } from "react-native";
+import BigButton from "../components/BigButton";
 import Geolocation from "react-native-geolocation-service";
-
-// Note: we'll need this for Android:
-// https://facebook.github.io/react-native/docs/geolocation
-// https://facebook.github.io/react-native/docs/permissionsandroid.html
-// ACCESS_FINE_LOCATION
-
-// See: https://github.com/facebook/react-native/issues/7495
-//
-// Maybe use: https://www.npmjs.com/package/react-native-geolocation-service
 
 class GetLocation extends React.Component {
   static propTypes = {
@@ -89,17 +81,22 @@ class GetLocation extends React.Component {
       fetching,
       hasLocationPermission
     } = this.state;
+
+    // if (!hasLocationPermission)
+    //   return <Text>Location permission not granted! TODO: Style this</Text>;
+
     return (
-      <View
-        style={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }}
-      >
-        <Text>Location permission? {hasLocationPermission ? "yes" : "no"}</Text>
-        <Button onPress={() => this.doLocation()} title="Get Location" />
-        <Text>Latitude: {latitude}</Text>
-        <Text>Longitude: {longitude}</Text>
-        {error ? <Text>Error: {error}</Text> : null}
-        {fetching && <Text>Fetching...</Text>}
-      </View>
+      <BigButton
+        onPress={() => this.doLocation()}
+        label="Get Location"
+        icon={
+          error
+            ? "location-disabled"
+            : fetching
+            ? "access-time"
+            : "location-searching"
+        }
+      />
     );
   }
 }
