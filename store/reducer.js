@@ -17,7 +17,7 @@ const initialState = {
   planningApps: {
     fetching: false,
     error: false,
-    data: false
+    data: []
   },
   focusedLocation: false
 };
