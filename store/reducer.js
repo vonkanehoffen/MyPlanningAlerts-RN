@@ -42,7 +42,7 @@ function app(state = initialState, action) {
           user: {
             fetching: action.fetching || false,
             error: action.error,
-            data: action.data
+            data: () => action.data
           }
         },
         state
@@ -53,7 +53,7 @@ function app(state = initialState, action) {
           planningApps: {
             fetching: action.fetching || false,
             error: action.error || false,
-            ...(action.data && { data: action.data })
+            ...(action.data && { data: () => action.data })
           }
         },
         state

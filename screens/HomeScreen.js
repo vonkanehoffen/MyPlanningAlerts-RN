@@ -44,6 +44,12 @@ class HomeScreen extends React.Component {
       setFocusedLocation
     } = this.props;
 
+    if (!user.data)
+      return (
+        <Outer>
+          <Text>No user data</Text>
+        </Outer>
+      );
     return (
       <Outer>
         <PlanningMap
