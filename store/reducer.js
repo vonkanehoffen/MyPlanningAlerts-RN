@@ -4,6 +4,7 @@ import * as actionTypes from "./actionTypes";
 import { UNINITIALIZED } from "./constants";
 
 const initialState = {
+  // todo: better to make this state flatter?
   fcmToken: {
     fetching: false,
     error: false,
@@ -42,7 +43,7 @@ function app(state = initialState, action) {
           user: {
             fetching: action.fetching || false,
             error: action.error,
-            data: () => action.data
+            ...(action.data !== undefined && { data: () => action.data })
           }
         },
         state
@@ -53,7 +54,7 @@ function app(state = initialState, action) {
           planningApps: {
             fetching: action.fetching || false,
             error: action.error || false,
-            ...(action.data && { data: () => action.data })
+            ...(action.data !== undefined && { data: () => action.data })
           }
         },
         state
