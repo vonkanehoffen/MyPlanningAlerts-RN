@@ -29,6 +29,8 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
+import com.horcrux.svg.SvgPackage;
+
 import com.airbnb.android.react.maps.MapsPackage;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
@@ -69,7 +71,8 @@ public class MainApplication extends Application implements ReactApplication {
         new RNFirebasePerformancePackage(),
         new RNFirebaseStoragePackage(),
         new MapsPackage(),
-        new RNFusedLocationPackage()
+        new RNFusedLocationPackage(),
+        new SvgPackage()
       );
     }
 

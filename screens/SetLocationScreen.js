@@ -8,6 +8,7 @@ import { db } from "../App";
 import { setUserLocation } from "../store/actionCreators";
 import PageOuter from "../components/PageOuter";
 import H1 from "../components/H1";
+import AppLogo from "../components/AppLogo";
 
 class SetLocationScreen extends React.Component {
   static propTypes = {
@@ -22,6 +23,7 @@ class SetLocationScreen extends React.Component {
     const { setUserLocation } = this.props;
     return (
       <PageOuter>
+        <AppLogo />
         <H1>Where do you live?</H1>
         <H1>
           We'll show you the planning applications that have been made near you.

@@ -160,6 +160,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation fileTree(dir: "libs", include: ["*.jar"])
+  implementation project(':react-native-svg')
 
   /* ----------------------------
    *    react-native-geolocation-service TODO: Global properties in app/android/build.gradle
