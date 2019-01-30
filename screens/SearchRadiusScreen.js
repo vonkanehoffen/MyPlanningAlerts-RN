@@ -15,23 +15,23 @@ class SearchRadiusScreen extends React.Component {
     drawerLabel: "Set search radius"
   };
 
-  async setRadius(radius) {
-    await db
-      .collection("users")
-      .doc(this.props.screenProps.userId)
-      .update({
-        searchRadius: parseInt(radius)
-      });
-  }
+  // async setRadius(radius) {
+  //   await db
+  //     .collection("users")
+  //     .doc(this.props.screenProps.userId)
+  //     .update({
+  //       searchRadius: parseInt(radius)
+  //     });
+  // }
 
   render() {
-    const { planningAppsCount, user } = this.props;
+    const { planningAppsCount, searchRadius } = this.props;
 
     return (
       <PageOuter>
         <H1>
           There are {planningAppsCount || "no"} planning applications open
-          within {user.searchRadius}km of your address.
+          within {searchRadius}km of your address.
         </H1>
         <H1>We'll alert you when new ones are made.</H1>
 
@@ -39,7 +39,7 @@ class SearchRadiusScreen extends React.Component {
         <TextInput
           keyboardType="numeric"
           placeholder="Search radius"
-          onChangeText={r => this.setRadius(r)}
+          onChangeText={r => false}
         />
       </PageOuter>
     );
@@ -48,8 +48,8 @@ class SearchRadiusScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.app.user.data,
-    planningAppsCount: state.app.planningApps.data.length
+    searchRadius: state.getIn(["user", "userData", "searchRadius"]),
+    planningAppsCount: state.getIn(["planningApps", "planningAppsData"]).length
   };
 };
 

@@ -20,32 +20,38 @@ class AuthLoadingScreen extends React.Component {
   componentDidUpdate() {
     const {
       navigation: { navigate },
-      user
+      userLocation,
+      userLoading
     } = this.props;
 
-    if (user.data === UNINITIALIZED) return;
-
-    // We have an existing initialized user:
-    if (user.data && user.data.location) navigate("Home");
-    //
-    // // We don't....
-    if (user.data === false) navigate("NewUser");
+    if (!userLoading) {
+      if (userLocation) {
+        navigate("Home");
+      } else {
+        navigate("NewUser");
+      }
+    }
   }
 
   render() {
     const {
       navigation: { navigate },
-      fcmToken,
-      user
+      fcmTokenError,
+      userError
     } = this.props;
 
     // Something's gone wrong...
-    if (fcmToken.error || user.error)
+    if (userError)
       return (
         <PageOuter>
-          <Text>Oooops.</Text>
-          <Text>{JSON.stringify(fcmToken, null, 2)}</Text>
-          <Text>{JSON.stringify(user, null, 2)}</Text>
+          <Text>Error fetching user.</Text>
+        </PageOuter>
+      );
+
+    if (fcmTokenError)
+      return (
+        <PageOuter>
+          <Text>Error fetching FCM token</Text>
         </PageOuter>
       );
 
@@ -59,8 +65,11 @@ class AuthLoadingScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    fcmToken: state.app.fcmToken,
-    user: state.app.user
+    fcmTokenLoading: state.getIn(["fcmToken", "loading"]),
+    fcmTokenError: state.getIn(["fcmToken", "error"]),
+    userLoading: state.getIn(["user", "loading"]),
+    userLocation: state.getIn(["user", "userData", "location"]),
+    userError: state.getIn(["user", "error"])
   };
 };
 

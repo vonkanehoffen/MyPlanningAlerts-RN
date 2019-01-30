@@ -3,80 +3,63 @@ import firebase from "react-native-firebase";
 import { db, geoFirestore } from "../App";
 import { FOCUS_LOCATION } from "./actionTypes";
 
-// prettier-ignore
-const fcmTokenRequest = () => ({ type: actionTypes.FETCH_FCM_TOKEN, fetching: true });
-const fcmTokenSuccess = token => ({ type: actionTypes.FETCH_FCM_TOKEN, token });
-const fcmTokenFailure = error => ({ type: actionTypes.FETCH_FCM_TOKEN, error });
-
 /**
  * Get the Firebase Clud Messaging token, that we'll use to identify the user by.
  * Also set a listener to update token should it change.
  * @returns {Function}
  */
 export const fetchFCMToken = () => async (dispatch, getState) => {
-  if (getState().app.fcmToken.token) {
+  if (getState().getIn(["fcmToken", "token"])) {
     console.log("FCM token already stored. Will not fetchFCMToken");
     return;
   }
 
-  dispatch(fcmTokenRequest());
+  dispatch({ type: actionTypes.FETCH_FCM_TOKEN_REQUEST });
 
   try {
     const token = await firebase.messaging().getToken();
-    dispatch(fcmTokenSuccess(token));
+    dispatch({ type: actionTypes.FETCH_FCM_TOKEN_SUCCESS, token });
   } catch (error) {
-    dispatch(fcmTokenFailure(error.message));
+    dispatch({
+      type: actionTypes.FETCH_FCM_TOKEN_FAILURE,
+      error: error.message
+    });
   }
 
   this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(token => {
-    dispatch(fcmTokenSuccess(token));
+    dispatch({ type: actionTypes.FETCH_FCM_TOKEN_SUCCESS, token });
   });
 };
-
-const userRequest = () => ({ type: actionTypes.FETCH_USER, fetching: true });
-const userSuccess = data => ({ type: actionTypes.FETCH_USER, data });
-const userFailure = error => ({ type: actionTypes.FETCH_USER, error });
 
 /**
  * Retrieve any existing user data associated with the FCM token
  * @returns {Function}
  */
 export const fetchUser = () => async (dispatch, getState) => {
-  const fcmToken = getState().app.fcmToken.token;
+  const fcmToken = getState().getIn(["fcmToken", "token"]);
   if (!fcmToken) {
     console.log("No FCM token. Will not fetchUser");
     return;
   }
 
-  dispatch(userRequest());
+  dispatch({ type: actionTypes.FETCH_USER_REQUEST });
+
   try {
     const userQuery = await db
       .collection("users")
       .doc(fcmToken)
       .get();
 
-    let data = false;
+    let userData = false;
     if (userQuery.exists) {
-      data = userQuery.data();
+      userData = userQuery.data();
     }
-    dispatch(userSuccess(data));
+
+    dispatch({ type: actionTypes.FETCH_USER_SUCCESS, userData });
   } catch (error) {
-    dispatch(userFailure(error.message));
+    dispatch({ type: actionTypes.FETCH_USER_FAILURE, error: error.message });
   }
 };
-
-const planningAppsRequest = () => ({
-  type: actionTypes.FETCH_PLANNING_APPS,
-  fetching: true
-});
-const planningAppsSuccess = data => ({
-  type: actionTypes.FETCH_PLANNING_APPS,
-  data
-});
-const planningAppsFailure = error => ({
-  type: actionTypes.FETCH_PLANNING_APPS,
-  error
-});
 
 /**
  * Save user location to Firestore and update state
@@ -84,23 +67,23 @@ const planningAppsFailure = error => ({
  * @returns {Function}
  */
 export const setUserLocation = location => async (dispatch, getState) => {
-  const fcmToken = getState().app.fcmToken.token;
+  const fcmToken = getState().getIn(["fcmToken", "token"]);
 
-  const user = {
+  const userData = {
     location,
     searchRadius: 5 // default
   };
 
-  dispatch(userRequest());
+  dispatch({ type: actionTypes.FETCH_USER_REQUEST });
 
   db.collection("users")
     .doc(fcmToken)
-    .set(user)
+    .set(userData)
     .then(() => {
-      dispatch(userSuccess(user));
+      dispatch({ type: actionTypes.FETCH_USER_SUCCESS, userData });
     })
     .catch(error => {
-      dispatch(userFailure(error.message));
+      dispatch({ type: actionTypes.FETCH_USER_FAILURE, error: error.message });
     });
 };
 
@@ -114,7 +97,7 @@ export const fetchUserPlanningApps = () => async (dispatch, getState) => {
     console.log("No user! Will not fetchUserPlanningApps");
     return;
   }
-  dispatch(planningAppsRequest());
+  dispatch({ type: actionTypes.FETCH_PLANNING_APPS_REQUEST });
   try {
     // Perform a geo-hashed search
     const geoCollection = geoFirestore.collection("planningLocations");
@@ -130,12 +113,18 @@ export const fetchUserPlanningApps = () => async (dispatch, getState) => {
     });
     const results = await query.get();
 
-    let data = [];
-    results.forEach(doc => data.push(doc.data()));
+    let planningAppsData = [];
+    results.forEach(doc => planningAppsData.push(doc.data()));
 
-    dispatch(planningAppsSuccess(data));
+    dispatch({
+      type: actionTypes.FETCH_PLANNING_APPS_SUCCESS,
+      planningAppsData
+    });
   } catch (error) {
-    dispatch(planningAppsFailure(error.message));
+    dispatch({
+      type: actionTypes.FETCH_PLANNING_APPS_FAILURE,
+      error: error.message
+    });
   }
 };
 

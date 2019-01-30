@@ -41,10 +41,7 @@ class SetLocationScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {
-    fcmToken: state.app.fcmToken,
-    user: state.app.user
-  };
+  return {};
 };
 
 const mapDispatchToProps = {

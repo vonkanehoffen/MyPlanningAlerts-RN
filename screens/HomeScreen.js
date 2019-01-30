@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, ActivityIndicator } from "react-native";
 import PlanningMap from "../containers/PlanningMap";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MenuButton from "../components/MenuOpenButton";
@@ -20,6 +20,7 @@ import {
   setFocusedLocation
 } from "../store/actionCreators";
 import PlanningAppList from "../containers/PlanningAppList";
+import planningApps from "../store/reducers/planningApps";
 
 class HomeScreen extends React.Component {
   constructor() {
@@ -37,32 +38,37 @@ class HomeScreen extends React.Component {
 
   render() {
     const {
-      user,
-      planningApps,
+      userLocation,
+      searchRadius,
+      planningAppsData,
+      planningAppsLoading,
+      planningAppsError,
       focusedLocation,
+      // Actions
       fetchUserPlanningApps,
       setFocusedLocation
     } = this.props;
 
-    if (!user.data)
+    if (planningAppsLoading)
       return (
         <Outer>
-          <Text>No user data</Text>
+          <ActivityIndicator size="large" color="blue" />
         </Outer>
       );
+
     return (
       <Outer>
         <PlanningMap
           markers={planningApps.data || []}
-          center={user.data.location}
-          radius={user.data.searchRadius}
+          center={userLocation}
+          radius={searchRadius}
           selectPA={setFocusedLocation}
           ref={ref => (this._map = ref)}
         />
         <MenuButton />
         <PlanningAppList
-          items={planningApps.data || []}
-          center={user.data.location}
+          items={planningAppsData}
+          center={userLocation}
           selectedPA={focusedLocation}
           _map={this._map}
         />
@@ -77,9 +83,12 @@ const Outer = styled.View`
 
 const mapStateToProps = state => {
   return {
-    user: state.app.user,
-    planningApps: state.app.planningApps,
-    focusedLocation: state.app.focusedLocation
+    userLocation: state.getIn(["user", "userData", "location"]),
+    searchRadius: state.getIn(["user", "userData", "searchRadius"]),
+    planningAppsData: state.getIn(["planningApps", "planningAppsData"]),
+    planningAppsLoading: state.getIn(["planningApps", "loading"]),
+    planningAppsError: state.getIn(["planningApps", "error"]),
+    focusedLocation: state.getIn(["user", "focusedLocation"])
   };
 };
 
