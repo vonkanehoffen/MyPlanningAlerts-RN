@@ -40,6 +40,7 @@ class GetLocation extends React.Component {
    * @returns {Promise<void>}
    */
   doLocation = async () => {
+    console.log("doing lcoation");
     if (Platform.OS === "android" && !this.state.hasLocationPermission) {
       this.setState({
         hasLocationPermission: await PermissionsAndroid.request(
@@ -87,7 +88,7 @@ class GetLocation extends React.Component {
 
     return (
       <BigButton
-        onPress={() => this.doLocation()}
+        onPress={this.doLocation}
         label="Get Location"
         icon={
           error

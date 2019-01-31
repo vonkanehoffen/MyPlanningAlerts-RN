@@ -47,6 +47,7 @@ class PlanningMap extends React.PureComponent {
     // https://github.com/react-native-community/react-native-maps/issues/180
     // ...although it's kinda good as the map will auto centre when new pins are added.
     if (prevProps.markers !== this.props.markers) {
+      console.log("PlanningMap doing fitToElements");
       this.map.fitToElements(true);
     }
   }
@@ -54,6 +55,9 @@ class PlanningMap extends React.PureComponent {
   render() {
     const { markers, center, radius, selectPA } = this.props;
     const region = regionFrom(center.latitude, center.longitude, radius * 1000);
+    console.log("planning map rendering");
+    console.log("region", region);
+    console.log("markers", markers);
     return (
       <View style={styles.container}>
         <MapView

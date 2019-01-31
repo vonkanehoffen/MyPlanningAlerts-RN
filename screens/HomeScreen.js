@@ -59,7 +59,7 @@ class HomeScreen extends React.Component {
     return (
       <Outer>
         <PlanningMap
-          markers={planningApps.data || []}
+          markers={planningAppsData}
           center={userLocation}
           radius={searchRadius}
           selectPA={setFocusedLocation}
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
   return {
     userLocation: state.getIn(["user", "userData", "location"]),
     searchRadius: state.getIn(["user", "userData", "searchRadius"]),
-    planningAppsData: state.getIn(["planningApps", "planningAppsData"]),
+    planningAppsData: state.getIn(["planningApps", "planningAppsData"]) || [],
     planningAppsLoading: state.getIn(["planningApps", "loading"]),
     planningAppsError: state.getIn(["planningApps", "error"]),
     focusedLocation: state.getIn(["user", "focusedLocation"])

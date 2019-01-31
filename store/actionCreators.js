@@ -42,8 +42,8 @@ export const fetchUser = () => async (dispatch, getState) => {
     return;
   }
 
+  console.log("doing fetchUser");
   dispatch({ type: actionTypes.FETCH_USER_REQUEST });
-
   try {
     const userQuery = await db
       .collection("users")
@@ -54,6 +54,7 @@ export const fetchUser = () => async (dispatch, getState) => {
     if (userQuery.exists) {
       userData = userQuery.data();
     }
+    console.log("DONE?");
 
     dispatch({ type: actionTypes.FETCH_USER_SUCCESS, userData });
   } catch (error) {
@@ -92,7 +93,7 @@ export const setUserLocation = location => async (dispatch, getState) => {
  * @returns {Function}
  */
 export const fetchUserPlanningApps = () => async (dispatch, getState) => {
-  const user = getState().app.user.data;
+  const user = getState().getIn(["user", "userData"]);
   if (!user.location) {
     console.log("No user! Will not fetchUserPlanningApps");
     return;
