@@ -57,6 +57,7 @@ class GetLocation extends React.Component {
 
     Geolocation.getCurrentPosition(
       position => {
+        console.log("getCurrentPosition", position);
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -70,7 +71,7 @@ class GetLocation extends React.Component {
         this.setState({ error: error.message, fetching: false });
       },
 
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 4000 }
     );
   };
 

@@ -68,6 +68,8 @@ export const fetchUser = () => async (dispatch, getState) => {
  * @returns {Function}
  */
 export const setUserLocation = location => async (dispatch, getState) => {
+  console.log("setUserLocation to:", location);
+
   const fcmToken = getState().getIn(["fcmToken", "token"]);
 
   const userData = {
@@ -77,15 +79,15 @@ export const setUserLocation = location => async (dispatch, getState) => {
 
   dispatch({ type: actionTypes.FETCH_USER_REQUEST });
 
-  db.collection("users")
-    .doc(fcmToken)
-    .set(userData)
-    .then(() => {
-      dispatch({ type: actionTypes.FETCH_USER_SUCCESS, userData });
-    })
-    .catch(error => {
-      dispatch({ type: actionTypes.FETCH_USER_FAILURE, error: error.message });
-    });
+  try {
+    const result = await db
+      .collection("users")
+      .doc(fcmToken)
+      .set(userData);
+    dispatch({ type: actionTypes.FETCH_USER_SUCCESS, userData });
+  } catch (error) {
+    dispatch({ type: actionTypes.FETCH_USER_FAILURE, error: error.message });
+  }
 };
 
 /**
@@ -93,6 +95,7 @@ export const setUserLocation = location => async (dispatch, getState) => {
  * @returns {Function}
  */
 export const fetchUserPlanningApps = () => async (dispatch, getState) => {
+  console.log("fetchUserPlanningApps");
   const user = getState().getIn(["user", "userData"]);
   if (!user.location) {
     console.log("No user! Will not fetchUserPlanningApps");

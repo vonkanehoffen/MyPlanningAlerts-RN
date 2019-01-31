@@ -5,7 +5,10 @@ import { View, Text, Button } from "react-native";
 import GetLocation from "../containers/GetLocation";
 import MenuButton from "../components/MenuOpenButton";
 import { db } from "../../App";
-import { setUserLocation } from "../store/actionCreators";
+import {
+  setUserLocation,
+  fetchUserPlanningApps
+} from "../store/actionCreators";
 import PageOuter from "../components/PageOuter";
 import H1 from "../components/H1";
 import AppLogo from "../components/AppLogo";
@@ -20,7 +23,7 @@ class SetLocationScreen extends React.Component {
   };
 
   render() {
-    const { setUserLocation } = this.props;
+    const { setUserLocation, fetchUserPlanningApps } = this.props;
     return (
       <PageOuter>
         <AppLogo />
@@ -29,10 +32,11 @@ class SetLocationScreen extends React.Component {
           We'll show you the planning applications that have been made near you.
         </H1>
         <GetLocation
-          setLocation={location => {
-            setUserLocation(location);
+          setLocation={async location => {
+            await setUserLocation(location);
+            console.log("set loc...");
+            fetchUserPlanningApps();
             this.props.navigation.navigate("SearchRadius");
-            // TODO: Move location search component to this screen and split lookup to helper?
           }}
         />
       </PageOuter>
@@ -45,7 +49,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  setUserLocation
+  setUserLocation,
+  fetchUserPlanningApps
 };
 
 export default connect(
