@@ -48,7 +48,14 @@ class PlanningAppList extends React.Component {
   render() {
     const { items, center, navigation, _map } = this.props;
 
-    // Planning apps are grouped by location, so we ned to flatten the data
+    if (items.length < 1)
+      return (
+        <NoItems>
+          <Icon name="nature-people" color="white" size={50} />
+          <Title>No planning applications</Title>
+        </NoItems>
+      );
+    // Planning apps are grouped by location, so we need to flatten the data
     // TODO: Do something about duped data... group by location with SectionList or something?
     let flatData = [];
     items.forEach(location => {
@@ -100,6 +107,13 @@ class PlanningAppList extends React.Component {
   }
 }
 
+const NoItems = styled.View`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background: ${colors.primary};
+`;
 const List = styled.ScrollView`
   flex: 1;
   background: ${colors.primary};
