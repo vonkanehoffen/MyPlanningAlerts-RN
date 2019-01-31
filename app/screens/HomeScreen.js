@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { View, Text, Button, ActivityIndicator } from "react-native";
+import { View, Text, Button } from "react-native";
 import PlanningMap from "../containers/PlanningMap";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MenuButton from "../components/MenuOpenButton";
@@ -19,6 +19,7 @@ import {
   fetchUserPlanningApps,
   setFocusedLocation
 } from "../store/actionCreators";
+import LoadingScreen from "../components/LoadingScreen";
 import PlanningAppList from "../containers/PlanningAppList";
 import planningApps from "../store/reducers/planningApps";
 
@@ -49,12 +50,7 @@ class HomeScreen extends React.Component {
       setFocusedLocation
     } = this.props;
 
-    if (planningAppsLoading)
-      return (
-        <Outer>
-          <ActivityIndicator size="large" color="blue" />
-        </Outer>
-      );
+    if (planningAppsLoading) return <LoadingScreen />;
 
     return (
       <Outer>

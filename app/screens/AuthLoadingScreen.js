@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Button, ActivityIndicator } from "react-native";
+import { View, Text, Button } from "react-native";
 import { fetchFCMToken, fetchUser } from "../store/actionCreators";
+import LoadingScreen from "../components/LoadingScreen";
 import PageOuter from "../components/PageOuter";
 import MenuButton from "../components/MenuOpenButton";
 import { UNINITIALIZED } from "../store/constants";
@@ -55,11 +56,7 @@ class AuthLoadingScreen extends React.Component {
         </PageOuter>
       );
 
-    return (
-      <PageOuter>
-        <ActivityIndicator size="large" color="white" />
-      </PageOuter>
-    );
+    return <LoadingScreen />;
   }
 }
 
