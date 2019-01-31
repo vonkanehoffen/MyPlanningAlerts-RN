@@ -5,7 +5,7 @@ import { View, Text, Button, ActivityIndicator } from "react-native";
 import PlanningMap from "../containers/PlanningMap";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MenuButton from "../components/MenuOpenButton";
-import { db, geoFirestore } from "../App";
+import { db, geoFirestore } from "../../App";
 import firebase from "react-native-firebase";
 import {
   GeoCollectionReference,

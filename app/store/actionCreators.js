@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import firebase from "react-native-firebase";
-import { db, geoFirestore } from "../App";
+import { db, geoFirestore } from "../../App";
 import { FOCUS_LOCATION } from "./actionTypes";
 
 /**

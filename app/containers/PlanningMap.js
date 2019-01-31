@@ -83,7 +83,7 @@ class PlanningMap extends React.PureComponent {
           })}
           <Marker
             coordinate={center}
-            image={require("../assets/homePin.png")}
+            image={require("../../assets/homePin.png")}
           />
         </MapView>
       </View>

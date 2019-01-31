@@ -8,19 +8,19 @@ import {
   createDrawerNavigator,
   createSwitchNavigator
 } from "react-navigation";
-import SetLocationScreen from "./screens/SetLocationScreen";
-import HomeScreen from "./screens/HomeScreen";
-import DetailsScreen from "./screens/DetailsScreen";
-import { colors } from "./theme";
-import AboutScreen from "./screens/AboutScreen";
-import VersionScreen from "./screens/VersionScreen";
-import SearchRadiusScreen from "./screens/SearchRadiusScreen";
-import NotificationsScreen from "./screens/NotificationsScreen";
-import AuthLoadingScreen from "./screens/AuthLoadingScreen";
-import NewUserScreen from "./screens/NewUserScreen";
-import DrawerContent from "./components/DrawerContent";
+import SetLocationScreen from "./app/screens/SetLocationScreen";
+import HomeScreen from "./app/screens/HomeScreen";
+import DetailsScreen from "./app/screens/DetailsScreen";
+import { colors } from "./app/theme";
+import AboutScreen from "./app/screens/AboutScreen";
+import VersionScreen from "./app/screens/VersionScreen";
+import SearchRadiusScreen from "./app/screens/SearchRadiusScreen";
+import NotificationsScreen from "./app/screens/NotificationsScreen";
+import AuthLoadingScreen from "./app/screens/AuthLoadingScreen";
+import NewUserScreen from "./app/screens/NewUserScreen";
+import DrawerContent from "./app/components/DrawerContent";
 import { GeoFirestore } from "geofirestore";
-import store from "./store";
+import store from "./app/store";
 
 /**
  * Init Firestore DB

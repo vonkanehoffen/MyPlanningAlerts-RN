@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, Button, TextInput } from "react-native";
-import { db } from "../App";
+import { db } from "../../App";
 import PageOuter from "../components/PageOuter";
 import H1 from "../components/H1";
 
